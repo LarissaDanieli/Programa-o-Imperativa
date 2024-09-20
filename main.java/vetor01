@@ -1,0 +1,86 @@
+import java.util.Scanner;
+
+public class Vetor01 {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int[] num = new int[10];
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println("Digite o número " + (i + 1) + ": ");
+            num[i] = sc.nextInt();
+        }
+
+        System.out.print("Os números digitados são: ");
+        for (int i = 0; i < 10; i++) {
+            System.out.print(num[i] + " ");
+        }
+        System.out.println();
+
+        boolean estaOrdenado = true;
+        for (int i = 0; i < num.length - 1; i++) {
+            if (num[i] > num[i + 1]) {
+                estaOrdenado = false;
+                break;
+            }
+        }
+
+        if (estaOrdenado) {
+            System.out.println("O vetor está ordenado.");
+        } else {
+            System.out.println("O vetor não está ordenado.");
+        }
+
+        boolean continuar = true;
+        while (continuar) {
+            System.out.println("Digite um elemento a ser encontrado:");
+            int elemento = sc.nextInt();
+            int posicao;
+
+
+            if (estaOrdenado) {
+                posicao = buscaBinaria(num, elemento);
+            } else {
+                posicao = buscaSimples(num, elemento);
+            }
+
+            if (posicao != -1) {
+                System.out.println("Elemento encontrado na posição: " + posicao);
+            } else {
+                System.out.println("Elemento não encontrado.");
+            }
+
+            System.out.println("Deseja continuar a busca? (s/n)");
+            char resposta = sc.next().charAt(0);
+            continuar = (resposta == 's' || resposta == 'S');
+        }
+        sc.close();
+    }
+
+    private static int buscaSimples(int[] vetor, int elemento) {
+        for (int i = 0; i < vetor.length; i++) {
+            if (vetor[i] == elemento) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
+    private static int buscaBinaria(int[] vetor, int elemento) {
+        int esquerda = 0;
+        int direita = vetor.length - 1;
+
+        while (esquerda <= direita) {
+            int meio = (esquerda + direita) / 2;
+
+            if (vetor[meio] == elemento) {
+                return meio;
+            } else if (vetor[meio] < elemento) {
+                esquerda = meio + 1;
+            } else {
+                direita = meio - 1;
+            }
+        }
+        return -1;
+    }
+}
